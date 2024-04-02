@@ -2,48 +2,65 @@
 
 #include <iostream>
 
+#define MAX_SIZE 100
 
-using namespace std;
+class Stack {
+private:
+    int top;
+    int stackArray[MAX_SIZE];
 
-const int MAX_SIZE = 5; // Maximum size of the list
-
-struct StaticList {
-    int data[MAX_SIZE];
-    int size;
-
-    StaticList() {
-        size = 0; // Initialize size to 0
+public:
+    Stack() {
+        top = -1; // Initializing top to -1 to indicate an empty stack
     }
 
-    void insert(int value) {
-        if (size < MAX_SIZE) {
-            data[size++] = value; // Insert the value at the end and increment size
-            cout << "Inserted " << value << " into the list." << endl;
-        } else {
-            cout << "List is full. Cannot insert " << value << "." << endl;
-        }
+    bool isEmpty() {
+        return top == -1;
     }
 
-    void display() {
-        cout << "List contents:" << endl;
-        for (int i = 0; i < size; ++i) {
-            cout << data[i] << " ";
+    bool isFull() {
+        return top == MAX_SIZE - 1;
+    }
+
+    void push(int item) {
+        if (isFull()) {
+            std::cout << "Stack Overflow! Cannot push item " << item << std::endl;
+            return;
         }
-        cout << endl;
+        stackArray[++top] = item;
+        std::cout << item << " pushed into stack." << std::endl;
+    }
+
+    int pop() {
+        if (isEmpty()) {
+            std::cout << "Stack Underflow! Cannot pop from empty stack." << std::endl;
+            return -1; // Assuming -1 as an error code for empty stack
+        }
+        return stackArray[top--];
+    }
+
+    int peek() {
+        if (isEmpty()) {
+            std::cout << "Stack is empty." << std::endl;
+            return -1; // Assuming -1 as an error code for empty stack
+        }
+        return stackArray[top];
     }
 };
 
 int main() {
-    StaticList list;
-
-    list.insert(10);
-    list.insert(20);
-    list.insert(30);
-    list.insert(40);
-    list.insert(50);
-    list.insert(60); // This won't be inserted as the list is full
-
-    list.display();
-
+    Stack stack;
+    
+    stack.push(10);
+    stack.push(20);
+    stack.push(30);
+    
+    std::cout << "Top element of stack: " << stack.peek() << std::endl;
+    
+    std::cout << stack.pop() << " popped from stack." << std::endl;
+    std::cout << stack.pop() << " popped from stack." << std::endl;
+    
+    std::cout << "Top element of stack: " << stack.peek() << std::endl;
+    
     return 0;
 }
